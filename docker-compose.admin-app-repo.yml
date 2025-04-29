@@ -1,0 +1,11 @@
+version: '3'
+services:
+  admin-app-repo:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin-app-repo
+    ports:
+      - '3032:3002'
+      - '4104:4104'
+    environment:
+      - NODE_ENV=production
