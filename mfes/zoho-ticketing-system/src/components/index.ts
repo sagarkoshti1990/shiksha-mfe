@@ -2,6 +2,7 @@
 export { TicketingProvider } from "./common/TicketingProvider";
 export { RoleGuard } from "./common/RoleGuard";
 export { ConfigProvider, useConfig } from "./common/ConfigProvider";
+export { default as ZohoDeskWidget } from "./common/ZohoDeskWidget";
 
 // User Components
 export {

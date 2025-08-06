@@ -23,6 +23,11 @@ const nextConfig = {
 
     // Only add rewrites if environment variables are defined
     if (process.env.NEXT_PUBLIC_TELEMETRY_URL) {
+      console.log(
+        "NEXT_PUBLIC_TELEMETRY_URL",
+        process.env.NEXT_PUBLIC_TELEMETRY_URL,
+        `${process.env.NEXT_PUBLIC_ZOHO_API_URL}/api/v1/tickets`
+      );
       rewrites.push(
         {
           source: "/action/v1/telemetry",
@@ -35,6 +40,10 @@ const nextConfig = {
         {
           source: "/data/v3/telemetry",
           destination: `${process.env.NEXT_PUBLIC_TELEMETRY_URL}/v1/telemetry`,
+        },
+        {
+          source: "/api/v1/tickets",
+          destination: `${process.env.ZOHO_API_URL}/tickets`,
         }
       );
     }

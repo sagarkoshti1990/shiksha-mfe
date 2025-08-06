@@ -85,29 +85,6 @@ export const useTicketing = () => {
     store.setError(null);
   }, [store]);
 
-  // User data with fallback
-  const userData = useMemo(() => {
-    if (currentUser) {
-      return currentUser;
-    }
-
-    // Try to get from service if not in store
-    if (typeof window !== "undefined") {
-      try {
-        const { TicketService } = require("@/services/ticketService");
-        const userData = TicketService.getUserData();
-        if (userData) {
-          store.setCurrentUser(userData);
-          return userData;
-        }
-      } catch (error) {
-        console.error("Error getting user data:", error);
-      }
-    }
-
-    return null;
-  }, [currentUser, store]);
-
   // App categories
   const categories = useMemo(() => {
     return appConfig?.categories || [];
@@ -116,7 +93,7 @@ export const useTicketing = () => {
   return {
     // State
     appConfig,
-    currentUser: userData,
+    currentUser,
     tickets: store.tickets,
     isLoading: store.isLoading,
     error: store.error,

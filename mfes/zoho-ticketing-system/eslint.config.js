@@ -1,6 +1,8 @@
-const { FlatCompat } = require("@eslint/eslintrc");
-const js = require("@eslint/js");
-const baseConfig = require("../../eslint.config.js");
+const { FlatCompat } = require('@eslint/eslintrc');
+const js = require('@eslint/js');
+const { fixupConfigRules } = require('@eslint/compat');
+const nx = require('@nx/eslint-plugin');
+const baseConfig = require('../../eslint.config.js');
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -8,34 +10,13 @@ const compat = new FlatCompat({
 });
 
 module.exports = [
+  ...fixupConfigRules(compat.extends('next')),
+
+  ...fixupConfigRules(compat.extends('next/core-web-vitals')),
+
   ...baseConfig,
-  ...compat
-    .config({
-      extends: ["plugin:@nx/react-typescript", "next", "next/core-web-vitals"],
-    })
-    .map((config) => ({
-      ...config,
-      files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-      rules: {
-        ...config.rules,
-        "@next/next/no-html-link-for-pages": [
-          "error",
-          "mfes/zoho-ticketing-system/src/pages",
-        ],
-        "@nx/enforce-module-boundaries": [
-          "error",
-          {
-            allow: [],
-            depConstraints: [
-              {
-                sourceTag: "*",
-                onlyDependOnLibsWithTags: ["*"],
-              },
-            ],
-            enforceBuildableLibDependency: true,
-            allowCircularSelfDependency: true,
-          },
-        ],
-      },
-    })),
+  ...nx.configs['flat/react-typescript'],
+  {
+    ignores: ['.next/**/*'],
+  },
 ];

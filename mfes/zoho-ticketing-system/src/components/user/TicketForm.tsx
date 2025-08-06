@@ -50,6 +50,7 @@ export const TicketForm: React.FC = () => {
 
   useEffect(() => {
     if (isTicketFormOpen) {
+      console.log("Ticket form opened - resetting form");
       reset();
       clearError();
     }
@@ -57,8 +58,11 @@ export const TicketForm: React.FC = () => {
 
   const onSubmit = async (data: TicketFormData) => {
     if (!currentUser) {
+      console.error("No current user found");
       return;
     }
+
+    console.log("Submitting ticket form with data:", data);
 
     const ticketData = {
       userId: currentUser.userId,
@@ -71,18 +75,26 @@ export const TicketForm: React.FC = () => {
       priority: data.priority,
     };
 
+    console.log("Final ticket submission data:", ticketData);
     await createTicket(ticketData);
   };
 
   const handleClose = () => {
+    console.log("Closing ticket form");
     closeTicketForm();
     reset();
     clearError();
   };
 
   if (!currentUser) {
+    console.log("TicketForm - No current user, not rendering");
     return null;
   }
+
+  console.log(
+    "TicketForm - About to render Dialog with open:",
+    isTicketFormOpen
+  );
 
   return (
     <Dialog
@@ -256,9 +268,9 @@ export const TicketForm: React.FC = () => {
             color="text.secondary"
             sx={{ display: "block", mb: 2 }}
           >
-            After clicking "Submit Ticket", you will be redirected to Zoho Desk
-            to complete your submission. Your information has been pre-filled
-            for your convenience.
+            After clicking &quot;Submit Ticket&quot;, you will be redirected to
+            Zoho Desk to complete your submission. Your information has been
+            pre-filled for your convenience.
           </Typography>
         </Box>
       </DialogContent>

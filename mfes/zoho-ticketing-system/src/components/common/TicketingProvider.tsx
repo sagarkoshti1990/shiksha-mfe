@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { useTicketingStore } from "@/store/ticketingStore";
 import { AppConfig } from "@/types/config.types";
 import { ConfigService } from "@/services/configService";
-import { TicketService } from "@/services/ticketService";
 
 interface TicketingProviderProps {
   children: ReactNode;
@@ -19,7 +18,7 @@ export const TicketingProvider: React.FC<TicketingProviderProps> = ({
   appName,
   userRole,
 }) => {
-  const { setAppConfig, setCurrentUser } = useTicketingStore();
+  const { setAppConfig, setCurrentUser, currentUser } = useTicketingStore();
 
   useEffect(() => {
     // Initialize configuration
@@ -47,23 +46,66 @@ export const TicketingProvider: React.FC<TicketingProviderProps> = ({
         }
 
         setAppConfig(finalConfig);
+      } catch (error) {
+        console.error("Error initializing ticketing configuration:", error);
+      }
+    };
 
-        // Initialize user data
-        const userData = TicketService.getUserData();
+    initConfig();
+  }, [config, appName, setAppConfig]);
+
+  useEffect(() => {
+    // Initialize user data separately to avoid infinite loops
+    if (!currentUser) {
+      try {
+        // Get user data from localStorage
+        const getUserDataFromStorage = () => {
+          if (typeof window === "undefined") return null;
+
+          const adminInfo = localStorage.getItem("adminInfo");
+          const userInfo = localStorage.getItem("userInfo");
+
+          if (adminInfo && adminInfo !== "undefined") {
+            const admin = JSON.parse(adminInfo);
+            return {
+              userId: admin.userId || admin.id,
+              username: admin.username || admin.name,
+              email: admin.email,
+              phone: admin.phone || "",
+              role: admin.role,
+              tenantData: admin.tenantData,
+            };
+          }
+
+          if (userInfo && userInfo !== "undefined") {
+            const user = JSON.parse(userInfo);
+            return {
+              userId: user.userId || user.id,
+              username: user.username || user.name,
+              email: user.email,
+              phone: user.phone || "",
+              role: user.role || "user",
+              tenantData: user.tenantData,
+            };
+          }
+
+          return null;
+        };
+
+        const userData = getUserDataFromStorage();
         if (userData) {
           // Override role if provided
           if (userRole) {
             userData.role = userRole;
           }
+          console.log("TicketingProvider: Setting user data", userData);
           setCurrentUser(userData);
         }
       } catch (error) {
-        console.error("Error initializing ticketing provider:", error);
+        console.error("Error getting user data:", error);
       }
-    };
-
-    initConfig();
-  }, [config, appName, userRole, setAppConfig, setCurrentUser]);
+    }
+  }, [userRole, setCurrentUser, currentUser]);
 
   // Create theme based on config
   const theme = createTheme({

@@ -3,69 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "mfes/zoho-ticketing-system",
   "projectType": "application",
-  "tags": ["mfe", "ticketing", "zoho"],
-  "targets": {
-    "build": {
-      "executor": "@nx/next:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/mfes/zoho-ticketing-system"
-      },
-      "configurations": {
-        "development": {
-          "outputPath": "dist/mfes/zoho-ticketing-system"
-        },
-        "production": {
-          "outputPath": "dist/mfes/zoho-ticketing-system"
-        }
-      }
-    },
-    "serve": {
-      "executor": "@nx/next:server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "zoho-ticketing:build",
-        "dev": true,
-        "port": 3005
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "zoho-ticketing:build:development",
-          "dev": true
-        },
-        "production": {
-          "buildTarget": "zoho-ticketing:build:production",
-          "dev": false
-        }
-      }
-    },
-    "export": {
-      "executor": "@nx/next:export",
-      "options": {
-        "buildTarget": "zoho-ticketing:build:production"
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "mfes/zoho-ticketing-system/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "coverageReporters": ["text"]
-        }
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["mfes/zoho-ticketing-system/**/*.{ts,tsx,js,jsx}"]
-      }
-    }
-  }
+  "tags": [],
+  "// targets": "to see all targets run: nx show project players --web",
+  "targets": {}
 }
