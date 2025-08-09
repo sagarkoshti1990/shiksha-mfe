@@ -21,7 +21,9 @@ import {
   Divider,
 } from "@mui/material";
 import { SupportAgent, Close } from "@mui/icons-material";
-import ZohoDeskWidget from "@/components/common/ZohoDeskWidget";
+import ZohoDeskWidget from "../components/common/ZohoDeskWidget";
+import ZohoDeskScriptComponent from "./ScriptComponent";
+import ZohoAsapWidget from "./ZohoAsapWidget";
 
 const ZohoTicketingDemo: React.FC = () => {
   // Simple state management
@@ -42,8 +44,8 @@ const ZohoTicketingDemo: React.FC = () => {
   // Mock user data
   const mockUser = useMemo(
     () => ({
-      name: "John Doe",
-      email: "john.doe@example.com",
+      name: "sagar Doe",
+      email: "sagar_t@techjoomla.com",
       phone: "+1234567890",
     }),
     []
@@ -405,8 +407,9 @@ const ZohoTicketingDemo: React.FC = () => {
           />
 
           <Typography variant="caption" color="text.secondary">
-            After clicking "Submit Ticket", your ticket will be submitted
-            directly to Zoho Desk API. No redirects - direct integration only.
+            After clicking &quot;Submit Ticket&quot;, your ticket will be
+            submitted directly to Zoho Desk API. No redirects - direct
+            integration only.
           </Typography>
         </DialogContent>
 
@@ -476,10 +479,67 @@ const ZohoTicketingDemo: React.FC = () => {
           Zoho Desk Feedback Widget
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Use the iframe below to submit tickets directly through Zoho Desk's
-          feedback widget:
+          Use the iframe below to submit tickets directly through Zoho
+          Desk&apos;s feedback widget:
         </Typography>
         <ZohoDeskWidget />
+      </Box>
+      <Divider sx={{ mb: 4 }} />
+
+      {/* <ZohoDeskScriptComponent /> */}
+
+      <ZohoAsapWidget />
+
+      {/* Zoho ASAP Widget Controls */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h6" gutterBottom>
+          Zoho ASAP Widget Controls
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Use these buttons to control the Zoho ASAP widget programmatically:
+        </Typography>
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+          <Button
+            variant="outlined"
+            // onClick={ZohoWidgetUtils.openWidget}
+            size="small"
+          >
+            Open Widget
+          </Button>
+          <Button
+            variant="outlined"
+            // onClick={ZohoWidgetUtils.closeWidget}
+            size="small"
+          >
+            Close Widget
+          </Button>
+          <Button
+            variant="outlined"
+            // onClick={ZohoWidgetUtils.hideWidget}
+            size="small"
+          >
+            Hide Launcher
+          </Button>
+          <Button
+            variant="outlined"
+            // onClick={ZohoWidgetUtils.showWidget}
+            size="small"
+          >
+            Show Launcher
+          </Button>
+          <Button
+            variant="outlined"
+            // onClick={() => {
+            //   console.log(
+            //     "Zoho Widget Available:",
+            //     ZohoWidgetUtils.isAvailable()
+            //   );
+            // }}
+            size="small"
+          >
+            Check Status
+          </Button>
+        </Box>
       </Box>
 
       <Divider sx={{ mb: 4 }} />
