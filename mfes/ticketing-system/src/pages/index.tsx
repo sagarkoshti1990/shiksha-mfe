@@ -474,17 +474,6 @@ const ZohoTicketingDemo: React.FC = () => {
         </Typography>
       </Alert>
 
-      {/* Zoho Desk Feedback Widget */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Zoho Desk Feedback Widget
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Use the iframe below to submit tickets directly through Zoho
-          Desk&apos;s feedback widget:
-        </Typography>
-        <ZohoDeskWidget />
-      </Box>
       <Divider sx={{ mb: 4 }} />
 
       <ZohoDeskScriptComponent />
