@@ -78,7 +78,7 @@ Test with curl:
 ```bash
 curl -X GET https://desk.zoho.com/api/v1/tickets \
   -H "orgId:2389290" \
-  -H "Authorization:Zoho-oauthtoken YOUR_ACCESS_TOKEN"
+  -H "Authorization:oauthtoken YOUR_ACCESS_TOKEN"
 ```
 
 ## 🔄 Token Refresh

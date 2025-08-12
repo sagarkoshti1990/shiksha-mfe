@@ -22,8 +22,7 @@ import {
 } from "@mui/material";
 import { SupportAgent, Close } from "@mui/icons-material";
 import ZohoDeskWidget from "../components/common/ZohoDeskWidget";
-import ZohoDeskScriptComponent from "./ScriptComponent";
-import ZohoAsapWidget from "./ZohoAsapWidget";
+import ZohoDeskScriptComponent from "./ZohoDeskTicketing";
 
 const ZohoTicketingDemo: React.FC = () => {
   // Simple state management
@@ -89,7 +88,7 @@ const ZohoTicketingDemo: React.FC = () => {
         category: formData.category,
         priority: formData.priority,
         timestamp: new Date().toISOString(),
-        source: "zoho-ticketing-mfe",
+        source: "ticketing-mfe",
         appName: "learner-web-app",
       };
 
@@ -442,6 +441,8 @@ const ZohoTicketingDemo: React.FC = () => {
     ]
   );
 
+  return <ZohoDeskScriptComponent />;
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" gutterBottom align="center">
@@ -486,9 +487,7 @@ const ZohoTicketingDemo: React.FC = () => {
       </Box>
       <Divider sx={{ mb: 4 }} />
 
-      {/* <ZohoDeskScriptComponent /> */}
-
-      <ZohoAsapWidget />
+      <ZohoDeskScriptComponent />
 
       {/* Zoho ASAP Widget Controls */}
       <Box sx={{ mb: 4 }}>
@@ -677,7 +676,7 @@ const ZohoTicketingDemo: React.FC = () => {
               borderColor: "grey.300",
             }}
           >
-            {`1. cd mfes/zoho-ticketing-system
+            {`1. cd mfes/ticketing-system
 2. node generate-token.js
 3. Visit the authorization URL
 4. Grant permissions

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Fab, IconButton, Tooltip, Box } from "@mui/material";
-import { SupportAgent, Help, ContactSupport } from "@mui/icons-material";
+import { SupportAgent } from "@mui/icons-material";
 import { useTicketing } from "@/hooks/useTicketing";
 import { TicketForm } from "./TicketForm";
 

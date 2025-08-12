@@ -212,7 +212,7 @@ export const useTicketingStore = create<TicketingStore>()(
           }),
       }),
       {
-        name: "zoho-ticketing-store",
+        name: "ticketing-store",
         partialize: (state) => ({
           appConfig: state.appConfig,
           currentUser: state.currentUser,
@@ -221,7 +221,7 @@ export const useTicketingStore = create<TicketingStore>()(
       }
     ),
     {
-      name: "zoho-ticketing",
+      name: "ticketing",
     }
   )
 );

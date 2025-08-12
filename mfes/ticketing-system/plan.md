@@ -4,7 +4,7 @@
 
 We'll create **one unified, reusable MFE** following the existing project pattern:
 
-**`zoho-ticketing`** - A comprehensive, configurable MFE that supports:
+**`ticketing`** - A comprehensive, configurable MFE that supports:
 
 - End user ticket creation
 - Admin CSV export functionality
@@ -15,7 +15,7 @@ We'll create **one unified, reusable MFE** following the existing project patter
 
 ```
 mfes/
-└── zoho-ticketing/                 # Unified reusable ticketing MFE
+└── ticketing/                 # Unified reusable ticketing MFE
     ├── src/
     │   ├── components/
     │   │   ├── common/
@@ -211,7 +211,7 @@ interface RoleConfig {
 
 ```tsx
 // In learner-web-app
-import { TicketRaiseButton, TicketingProvider } from "zoho-ticketing";
+import { TicketRaiseButton, TicketingProvider } from "ticketing";
 
 const learnerConfig = {
   appName: "learner-web-app",
@@ -233,7 +233,7 @@ const learnerConfig = {
 
 ```tsx
 // In teachers app
-import { TicketRaiseButton, TicketingProvider } from "zoho-ticketing";
+import { TicketRaiseButton, TicketingProvider } from "ticketing";
 
 const teacherConfig = {
   appName: "teachers",
@@ -259,7 +259,7 @@ import {
   TicketExportButton,
   TicketManagementDashboard,
   TicketingProvider,
-} from "zoho-ticketing";
+} from "ticketing";
 
 const adminConfig = {
   appName: "admin-app-repo",
@@ -285,7 +285,7 @@ const adminConfig = {
 
 ### **6.1 Module Federation Setup**
 
-**zoho-ticketing/next.config.js**
+**ticketing/next.config.js**
 
 ```javascript
 const NextFederationPlugin = require("@module-federation/nextjs-mf");
@@ -569,7 +569,7 @@ NEXT_PUBLIC_ENABLE_REAL_TIME_UPDATES=true
 ### **11.1 Simple Integration (Learner App)**
 
 ```tsx
-import { TicketRaiseButton } from "zoho-ticketing/TicketRaiseButton";
+import { TicketRaiseButton } from "ticketing/TicketRaiseButton";
 
 // Minimal integration with default config
 <TicketRaiseButton
@@ -586,7 +586,7 @@ import {
   TicketingProvider,
   TicketManagementDashboard,
   TicketExportButton,
-} from "zoho-ticketing";
+} from "ticketing";
 
 const customConfig = {
   appName: "admin-app-repo",
@@ -610,7 +610,7 @@ const customConfig = {
 ### **11.3 Custom Hook Integration**
 
 ```tsx
-import { useTicketing } from "zoho-ticketing/useTicketing";
+import { useTicketing } from "ticketing/useTicketing";
 
 const MyComponent = () => {
   const { canCreateTicket, canExportData, createTicket, tickets } =

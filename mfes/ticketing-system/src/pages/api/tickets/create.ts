@@ -101,7 +101,7 @@ export default async function handler(
         method: "GET",
         headers: {
           orgId: zohoConfig.orgId,
-          Authorization: `Zoho-oauthtoken ${zohoConfig.accessToken}`,
+          Authorization: `oauthtoken ${zohoConfig.accessToken}`,
           "Content-Type": "application/json",
         },
       });
@@ -148,7 +148,7 @@ export default async function handler(
             method: "POST",
             headers: {
               orgId: zohoConfig.orgId,
-              Authorization: `Zoho-oauthtoken ${zohoConfig.accessToken}`,
+              Authorization: `oauthtoken ${zohoConfig.accessToken}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify(contactPayload),
@@ -204,7 +204,7 @@ export default async function handler(
       method: "POST",
       headers: {
         orgId: zohoConfig.orgId,
-        Authorization: `Zoho-oauthtoken ${zohoConfig.accessToken}`,
+        Authorization: `oauthtoken ${zohoConfig.accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(ticketPayload),
@@ -240,7 +240,7 @@ export default async function handler(
             zohoConfig.apiUrl
           }/tickets -H "orgId:${
             zohoConfig.orgId
-          }" -H "Authorization:Zoho-oauthtoken ${zohoConfig.accessToken.substring(
+          }" -H "Authorization:oauthtoken ${zohoConfig.accessToken.substring(
             0,
             20
           )}..."`,

@@ -1,12 +1,17 @@
 import React, { useEffect } from "react";
 
-interface ZohoDeskScriptComponentProps {
+interface ZohoDeskTicketingProps {
   nonce?: string;
 }
-
-const ZohoDeskScriptComponent: React.FC<ZohoDeskScriptComponentProps> = ({
-  nonce = "{place_your_nonce_value_here}",
+const crypto = require("crypto");
+const nonceDefult = crypto.randomBytes(16).toString("base64");
+const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
+  nonce = nonceDefult,
 }) => {
+  const NEXT_PUBLIC_ZOHO_WIDGET_ID = process.env.NEXT_PUBLIC_ZOHO_WIDGET_ID;
+  const NEXT_PUBLIC_ZOHO_ORG_ID = process.env.NEXT_PUBLIC_ZOHO_ORG_ID;
+  const src = `https://desk.zoho.in/portal/api/web/asapApp/${NEXT_PUBLIC_ZOHO_WIDGET_ID}?orgId=${NEXT_PUBLIC_ZOHO_ORG_ID}`;
+
   useEffect(() => {
     // Check if script is already loaded
     if (document.getElementById("zohodeskasapscript")) {
@@ -19,8 +24,7 @@ const ZohoDeskScriptComponent: React.FC<ZohoDeskScriptComponentProps> = ({
     script.id = "zohodeskasapscript";
     script.defer = true;
     script.nonce = nonce;
-    script.src =
-      "https://desk.zoho.in/portal/api/web/asapApp/214560000000323001?orgId=60044901378";
+    script.src = src;
 
     // Set up the ZohoDeskAsapReady function
     (window as any).ZohoDeskAsapReady = function (callback: () => void) {
@@ -53,9 +57,9 @@ const ZohoDeskScriptComponent: React.FC<ZohoDeskScriptComponentProps> = ({
       delete (window as any).ZohoDeskAsap__asyncalls;
       delete (window as any).ZohoDeskAsapReadyStatus;
     };
-  }, [nonce]);
+  }, [nonce, NEXT_PUBLIC_ZOHO_WIDGET_ID, NEXT_PUBLIC_ZOHO_ORG_ID]);
 
   return null; // This component doesn't render any visible content
 };
 
-export default ZohoDeskScriptComponent;
+export default ZohoDeskTicketing;

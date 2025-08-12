@@ -4,7 +4,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  basePath: "/zoho-ticketing", // This should match the path set in Nginx
+  basePath: "/ticketing", // This should match the path set in Nginx
   typescript: {
     ignoreBuildErrors: false,
   },

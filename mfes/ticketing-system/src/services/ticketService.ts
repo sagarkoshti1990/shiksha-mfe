@@ -88,7 +88,7 @@ export class TicketService {
         ...ticketData,
         appName: appConfig.appName,
         timestamp: new Date().toISOString(),
-        source: "zoho-ticketing-mfe",
+        source: "ticketing-mfe",
       });
     } catch (error) {
       console.error("Error logging ticket submission:", error);
