@@ -14,10 +14,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Script
-        src="https://desk.zoho.com/portal/api/web/asap/shaggy/214560000000323001/zohoDeskAsap.js"
-        strategy="afterInteractive"
-      />
       <Component {...pageProps} />
     </>
   );

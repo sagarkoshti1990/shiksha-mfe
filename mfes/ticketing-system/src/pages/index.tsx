@@ -21,8 +21,7 @@ import {
   Divider,
 } from "@mui/material";
 import { SupportAgent, Close } from "@mui/icons-material";
-import ZohoDeskWidget from "../components/common/ZohoDeskWidget";
-import ZohoDeskScriptComponent from "./ZohoDeskTicketing";
+import ZohoDeskTicketing from "../components/zoho/ZohoDeskTicketing";
 
 const ZohoTicketingDemo: React.FC = () => {
   // Simple state management
@@ -440,9 +439,18 @@ const ZohoTicketingDemo: React.FC = () => {
       handleSubmit,
     ]
   );
-
-  return <ZohoDeskScriptComponent />;
-
+  return (
+    <>
+      <ZohoDeskTicketing
+        buttonType="submit-ticket"
+        // staticData={{
+        //   email: "sagar_t@techjoomla.com",
+        //   cf_username: "sagar_t@techjoomla.com",
+        // }}
+        // isHidden={["cf_username"]}
+      />
+    </>
+  );
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" gutterBottom align="center">
@@ -476,7 +484,7 @@ const ZohoTicketingDemo: React.FC = () => {
 
       <Divider sx={{ mb: 4 }} />
 
-      <ZohoDeskScriptComponent />
+      <ZohoDeskTicketing buttonType="submit-ticket" />
 
       {/* Zoho ASAP Widget Controls */}
       <Box sx={{ mb: 4 }}>

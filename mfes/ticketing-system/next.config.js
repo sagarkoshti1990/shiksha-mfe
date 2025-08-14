@@ -40,12 +40,16 @@ const nextConfig = {
         {
           source: "/data/v3/telemetry",
           destination: `${process.env.NEXT_PUBLIC_TELEMETRY_URL}/v1/telemetry`,
-        },
-        {
-          source: "/api/v1/tickets",
-          destination: `${process.env.ZOHO_API_URL}/tickets`,
         }
       );
+
+      // Only add this rewrite if ZOHO_API_URL is defined
+      if (process.env.ZOHO_API_URL) {
+        rewrites.push({
+          source: "/api/v1/tickets",
+          destination: `${process.env.ZOHO_API_URL}/tickets`,
+        });
+      }
     }
 
     if (process.env.NEXT_PUBLIC_API_BASE_URL) {
