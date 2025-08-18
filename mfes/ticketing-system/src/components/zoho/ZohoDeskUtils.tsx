@@ -1,3 +1,5 @@
+import { SupportAgent, ConfirmationNumber, Close } from "@mui/icons-material";
+import { CircularProgress, Fab } from "@mui/material";
 import React, { useEffect, useCallback, useState } from "react";
 
 /**
@@ -24,7 +26,6 @@ interface ZohoDeskTicketingProps {
   nonce?: string;
   autoPopulateFields?: AutoPopulateFields;
   showOpenButton?: boolean;
-  showCloseButton?: boolean;
   showSubmitTicketButton?: boolean;
   onAppOpen?: () => void;
   onAppClose?: () => void;
@@ -51,7 +52,6 @@ const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
   nonce = defaultNonce,
   autoPopulateFields,
   showOpenButton = true,
-  showCloseButton = true,
   showSubmitTicketButton = true,
   onAppOpen,
   onAppClose,
@@ -67,26 +67,11 @@ const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
   const NEXT_PUBLIC_ZOHO_ORG_ID = process.env.NEXT_PUBLIC_ZOHO_ORG_ID;
   const NEXT_PUBLIC_ZOHO_DEPT_ID = process.env.NEXT_PUBLIC_ZOHO_DEPT_ID;
   const NEXT_PUBLIC_ZOHO_LAYOUT_ID = process.env.NEXT_PUBLIC_ZOHO_LAYOUT_ID;
+  const NEXT_PUBLIC_ZOHO_PORTAL_URL =
+    process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "https://desk.zoho.in";
 
   // Construct Zoho script URL
-  const src = `https://desk.zoho.in/portal/api/web/asapApp/${NEXT_PUBLIC_ZOHO_WIDGET_ID}?orgId=${NEXT_PUBLIC_ZOHO_ORG_ID}`;
-
-  /**
-   * Open the Zoho Desk widget
-   */
-  const openWidget = useCallback(() => {
-    if (
-      isWidgetReady &&
-      (window as any).ZohoDeskAsap &&
-      typeof (window as any).ZohoDeskAsap.invoke === "function"
-    ) {
-      (window as any).ZohoDeskAsap.invoke("open");
-      setIsWidgetOpen(true);
-      onAppOpen?.();
-    } else {
-      console.warn("Zoho Desk ASAP widget is not ready or not properly loaded");
-    }
-  }, [isWidgetReady, onAppOpen]);
+  const src = `${NEXT_PUBLIC_ZOHO_PORTAL_URL}/portal/api/web/asapApp/${NEXT_PUBLIC_ZOHO_WIDGET_ID}?orgId=${NEXT_PUBLIC_ZOHO_ORG_ID}`;
 
   /**
    * Close the Zoho Desk widget
@@ -104,6 +89,23 @@ const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
       console.warn("Zoho Desk ASAP widget is not ready or not properly loaded");
     }
   }, [isWidgetReady, onAppClose]);
+
+  /**
+   * Open the Zoho Desk widget
+   */
+  const openWidget = useCallback(() => {
+    if (
+      isWidgetReady &&
+      (window as any).ZohoDeskAsap &&
+      typeof (window as any).ZohoDeskAsap.invoke === "function"
+    ) {
+      (window as any).ZohoDeskAsap.invoke("open");
+      setIsWidgetOpen(true);
+      onAppOpen?.();
+    } else {
+      console.warn("Zoho Desk ASAP widget is not ready or not properly loaded");
+    }
+  }, [isWidgetReady, onAppOpen]);
 
   /**
    * Open submit ticket form directly with department and layout parameters
@@ -147,40 +149,6 @@ const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
     NEXT_PUBLIC_ZOHO_LAYOUT_ID,
     onAppOpen,
   ]);
-
-  /**
-   * Get button positioning styles based on configuration
-   */
-  const getButtonPositionStyles = (index = 0): React.CSSProperties => {
-    const baseStyles: React.CSSProperties = {
-      position: "fixed",
-      zIndex: 9999,
-      padding: "10px 15px",
-      margin: "5px",
-      border: "none",
-      borderRadius: "5px",
-      backgroundColor: "#007bff",
-      color: "white",
-      cursor: "pointer",
-      fontSize: "14px",
-      fontWeight: "bold",
-      boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-      transition: "all 0.3s ease",
-    };
-
-    const positionStyles: { [key: string]: React.CSSProperties } = {
-      "top-right": { top: `${20 + index * 60}px`, right: "20px" },
-      "bottom-right": { bottom: `${20 + index * 60}px`, right: "20px" },
-      "bottom-left": { bottom: `${20 + index * 60}px`, left: "20px" },
-      "top-left": { top: `${20 + index * 60}px`, left: "20px" },
-    };
-
-    return {
-      ...baseStyles,
-      ...positionStyles[buttonPosition],
-      ...customButtonStyles,
-    };
-  };
 
   /**
    * Initialize Zoho Desk ASAP widget
@@ -241,11 +209,25 @@ const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
         // Setup event handlers
         (window as any).ZohoDeskAsap.on("onAppOpen", () => {
           setIsWidgetOpen(true);
+          // Update global state for SpeedDial
+          window.zohoDeskWidgetOpen = true;
+          if (window.zohoDeskWidgetStateListeners) {
+            window.zohoDeskWidgetStateListeners.forEach((listener) =>
+              listener(true)
+            );
+          }
           onAppOpen?.();
         });
 
         (window as any).ZohoDeskAsap.on("onAppClose", () => {
           setIsWidgetOpen(false);
+          // Update global state for SpeedDial
+          window.zohoDeskWidgetOpen = false;
+          if (window.zohoDeskWidgetStateListeners) {
+            window.zohoDeskWidgetStateListeners.forEach((listener) =>
+              listener(false)
+            );
+          }
           onAppClose?.();
         });
 
@@ -289,23 +271,23 @@ const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
     autoPopulateFields,
     onAppOpen,
     onAppClose,
+    src,
   ]);
-
-  let buttonIndex = 0;
 
   // Show loading state while widget initializes
   if (!isWidgetReady) {
     return (
-      <button
-        style={{
-          ...getButtonPositionStyles(buttonIndex++),
-          backgroundColor: "gray",
+      <Fab
+        color="primary"
+        sx={{
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+          zIndex: 1000,
         }}
-        title="Loading Zoho Desk Widget"
-        disabled
       >
-        Loading...
-      </button>
+        <CircularProgress size={24} sx={{ color: "white" }} />
+      </Fab>
     );
   }
 
@@ -313,65 +295,40 @@ const ZohoDeskTicketing: React.FC<ZohoDeskTicketingProps> = ({
   return (
     <>
       {showSubmitTicketButton ? (
-        <button
-          onClick={openSubmitTicketForm}
-          style={{
-            ...getButtonPositionStyles(buttonIndex++),
-            backgroundColor: "#28a745",
+        <Fab
+          color="primary"
+          onClick={isWidgetOpen ? closeWidget : openSubmitTicketForm}
+          sx={{
+            position: "fixed",
+            bottom: 24,
+            right: 24,
+            zIndex: 1000,
           }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = "#1e7e34";
-            e.currentTarget.style.transform = "scale(1.05)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "#28a745";
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-          title="Submit a Ticket"
         >
-          📝 Submit Ticket
-        </button>
-      ) : isWidgetOpen ? (
-        <button
-          onClick={closeWidget}
-          style={{
-            ...getButtonPositionStyles(buttonIndex++),
-            backgroundColor: "#dc3545",
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = "#c82333";
-            e.currentTarget.style.transform = "scale(1.05)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "#dc3545";
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-          title="Close Support"
-        >
-          ✕ Close
-        </button>
+          {isWidgetOpen ? <Close /> : <ConfirmationNumber />}
+        </Fab>
       ) : (
         showOpenButton && (
-          <button
-            onClick={openWidget}
-            style={getButtonPositionStyles(buttonIndex++)}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = "#0056b3";
-              e.currentTarget.style.transform = "scale(1.05)";
+          <Fab
+            color="primary"
+            onClick={isWidgetOpen ? closeWidget : openWidget}
+            sx={{
+              position: "fixed",
+              bottom: 24,
+              right: 24,
+              zIndex: 1000,
             }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor =
-                customButtonStyles?.backgroundColor || "#007bff";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-            title="Open Support"
           >
-            🎧 Support
-          </button>
+            {isWidgetOpen ? <Close /> : <SupportAgent />}
+          </Fab>
         )
       )}
     </>
   );
+};
+
+const ZohoDeskTickets = () => {
+  return <></>;
 };
 
 /**
@@ -386,6 +343,35 @@ export const ZohoDeskUtils = {
       !!(window as any).ZohoDeskAsap &&
       typeof (window as any).ZohoDeskAsap.invoke === "function"
     );
+  },
+
+  /**
+   * Check if Zoho Desk widget is currently open
+   */
+  isOpen: () => {
+    if (!ZohoDeskUtils.isAvailable()) {
+      return false;
+    }
+
+    // Try to detect if widget is open by checking DOM elements
+    const zohoIframe =
+      document.querySelector('iframe[src*="zoho"]') ||
+      document.querySelector('iframe[src*="desk"]') ||
+      document.querySelector('[id*="zohodesk"]') ||
+      document.querySelector('[class*="zohodesk"]') ||
+      document.querySelector('[id*="asap"]') ||
+      document.querySelector('[class*="asap"]');
+
+    if (zohoIframe) {
+      const iframe = zohoIframe as HTMLElement;
+      return (
+        iframe.style.display !== "none" &&
+        iframe.offsetHeight > 0 &&
+        iframe.offsetWidth > 0
+      );
+    }
+
+    return false;
   },
 
   /**
@@ -499,9 +485,67 @@ export const ZohoDeskUtils = {
       );
     }
   },
+
+  /**
+   * Add event listener for widget state changes
+   */
+  onWidgetOpen: (callback: () => void) => {
+    if (ZohoDeskUtils.isAvailable()) {
+      try {
+        if (typeof (window as any).ZohoDeskAsap.on === "function") {
+          (window as any).ZohoDeskAsap.on("onAppOpen", callback);
+        } else {
+          console.warn("ZohoDeskAsap.on is not available");
+        }
+      } catch (error) {
+        console.warn("Error setting up onWidgetOpen listener:", error);
+      }
+    }
+  },
+
+  /**
+   * Add event listener for widget close events
+   */
+  onWidgetClose: (callback: () => void) => {
+    if (ZohoDeskUtils.isAvailable()) {
+      try {
+        if (typeof (window as any).ZohoDeskAsap.on === "function") {
+          (window as any).ZohoDeskAsap.on("onAppClose", callback);
+        } else {
+          console.warn("ZohoDeskAsap.on is not available");
+        }
+      } catch (error) {
+        console.warn("Error setting up onWidgetClose listener:", error);
+      }
+    }
+  },
+
+  /**
+   * Setup event listeners safely using ZohoDeskAsapReady
+   */
+  setupEventListeners: (onOpen?: () => void, onClose?: () => void) => {
+    const setupListeners = () => {
+      if (onOpen) ZohoDeskUtils.onWidgetOpen(onOpen);
+      if (onClose) ZohoDeskUtils.onWidgetClose(onClose);
+    };
+
+    if (typeof (window as any).ZohoDeskAsapReady === "function") {
+      (window as any).ZohoDeskAsapReady(() => {
+        setupListeners();
+      });
+    } else {
+      // Try immediately and with delays
+      setupListeners();
+      setTimeout(setupListeners, 1000);
+      setTimeout(setupListeners, 3000);
+    }
+  },
 };
 
 // Export types for external use
 export type { AutoPopulateField, AutoPopulateFields, ZohoDeskTicketingProps };
+
+// Export SpeedDial component
+export { ZohoDeskSpeedDial } from "./ZohoDeskSpeedDial";
 
 export default ZohoDeskTicketing;

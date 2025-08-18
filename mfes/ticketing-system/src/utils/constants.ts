@@ -20,7 +20,8 @@ export const DEFAULT_CONFIG: AppConfig = {
   zoho: {
     orgId: process.env.NEXT_PUBLIC_ZOHO_ORG_ID || "",
     departmentId: process.env.NEXT_PUBLIC_ZOHO_DEPT_ID || "",
-    portalUrl: process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "",
+    portalUrl:
+      process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "https://desk.zoho.in",
     customFields: {},
   },
   categories: [
@@ -51,7 +52,8 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
     zoho: {
       orgId: process.env.NEXT_PUBLIC_LEARNER_ZOHO_ORG_ID || "",
       departmentId: process.env.NEXT_PUBLIC_LEARNER_DEPT_ID || "",
-      portalUrl: process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "",
+      portalUrl:
+        process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "https://desk.zoho.in",
       customFields: {
         cf_app_source: "learner-web-app",
         cf_user_type: "learner",
@@ -84,7 +86,8 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
     zoho: {
       orgId: process.env.NEXT_PUBLIC_TEACHER_ZOHO_ORG_ID || "",
       departmentId: process.env.NEXT_PUBLIC_TEACHER_DEPT_ID || "",
-      portalUrl: process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "",
+      portalUrl:
+        process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "https://desk.zoho.in",
       customFields: {
         cf_app_source: "teachers",
         cf_user_type: "teacher",
@@ -117,7 +120,8 @@ export const APP_CONFIGS: Record<string, AppConfig> = {
     zoho: {
       orgId: process.env.NEXT_PUBLIC_ADMIN_ZOHO_ORG_ID || "",
       departmentId: process.env.NEXT_PUBLIC_ADMIN_DEPT_ID || "",
-      portalUrl: process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "",
+      portalUrl:
+        process.env.NEXT_PUBLIC_ZOHO_PORTAL_URL || "https://desk.zoho.in",
       customFields: {
         cf_app_source: "admin-app-repo",
         cf_user_type: "admin",

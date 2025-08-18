@@ -2,7 +2,6 @@
 export { TicketingProvider } from "./common/TicketingProvider";
 export { RoleGuard } from "./common/RoleGuard";
 export { ConfigProvider, useConfig } from "./common/ConfigProvider";
-export { default as ZohoDeskWidget } from "./common/ZohoDeskWidget";
 
 // User Components
 export {
@@ -14,6 +13,11 @@ export {
 } from "./user/TicketRaiseButton";
 
 export { TicketForm } from "./user/TicketForm";
+
+// Zoho Components
+export { ZohoOAuthButton } from "./zoho/CreateToken";
+export { TokenGenerator } from "./zoho/TokenGenerator";
+export { TokenGeneratorDemo } from "./zoho/TokenGeneratorDemo";
 
 // Module Components
 export { UserTicketing } from "../modules/UserTicketing";

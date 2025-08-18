@@ -6,7 +6,7 @@ import ZohoDeskTicketing, { ZohoDeskUtils } from "./ZohoDeskUtils";
  */
 interface ZohoDeskTicketingExampleProps {
   /** Type of button to display */
-  buttonType: string;
+  buttonType?: string;
   /** Static data for auto-populating form fields */
   staticData?: Record<string, any>;
   /** Array of field names that should be hidden from user */
@@ -119,7 +119,6 @@ const ZohoDeskTicketingExample: React.FC<ZohoDeskTicketingExampleProps> = ({
       <ZohoDeskTicketing
         autoPopulateFields={exampleAutoPopulateFields}
         showOpenButton={true}
-        showCloseButton={true}
         showSubmitTicketButton={buttonType === "submit-ticket"}
         onAppOpen={handleAppOpen}
         onAppClose={handleAppClose}
