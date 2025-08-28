@@ -116,7 +116,7 @@ export const TokenGenerator: React.FC<TokenGeneratorProps> = ({
         requestBody.refresh_token = refreshTokenInput.trim();
       }
 
-      const response = await fetch("/ticketing/api/auth/get-token", {
+      const response = await fetch("/mfe_ticketing/api/auth/get-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

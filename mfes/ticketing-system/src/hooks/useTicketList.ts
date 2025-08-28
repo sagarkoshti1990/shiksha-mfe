@@ -73,7 +73,9 @@ export const useTicketList = ({
           filters
         );
 
-        const response = await fetch(`/ticketing/api/tickets/list?${params}`);
+        const response = await fetch(
+          `/mfe_ticketing/api/tickets/list?${params}`
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch tickets");

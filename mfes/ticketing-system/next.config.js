@@ -4,7 +4,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  basePath: "/ticketing", // This should match the path set in Nginx
+  basePath: "/mfe_ticketing", // This should match the path set in Nginx
   typescript: {
     ignoreBuildErrors: false,
   },

@@ -75,7 +75,7 @@ export const ZohoOAuthButton: React.FC<ZohoOAuthButtonProps> = ({
   scope = "Desk.tickets.READ",
   accessType = "offline",
   redirectUri = process.env.NEXT_PUBLIC_ZOHO_REDIRECT_URI ||
-    "http://localhost:3002/ticketing/callback",
+    "http://localhost:4114/mfe_ticketing/callback",
   clientId,
   onBeforeRedirect,
   onError,

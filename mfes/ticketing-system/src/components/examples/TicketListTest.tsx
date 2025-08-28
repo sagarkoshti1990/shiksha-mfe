@@ -54,9 +54,11 @@ export const TicketListTest: React.FC = () => {
         params.append("status", status);
       }
 
-      console.log(`Testing API: /ticketing/api/tickets/list?${params}`);
+      console.log(`Testing API: /mfe_ticketing/api/tickets/list?${params}`);
 
-      const apiResponse = await fetch(`/ticketing/api/tickets/list?${params}`);
+      const apiResponse = await fetch(
+        `/mfe_ticketing/api/tickets/list?${params}`
+      );
 
       if (!apiResponse.ok) {
         throw new Error(
@@ -99,7 +101,7 @@ export const TicketListTest: React.FC = () => {
     });
     if (priority) params.append("priority", priority);
     if (status) params.append("status", status);
-    return `/ticketing/api/tickets/list?${params}`;
+    return `/mfe_ticketing/api/tickets/list?${params}`;
   };
 
   return (
